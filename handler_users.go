@@ -6,12 +6,11 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/DatNgo-dev/rssaggregator/internal/auth"
 	"github.com/DatNgo-dev/rssaggregator/internal/database"
 	"github.com/google/uuid"
 )
 
-func (apiCfg apiConfig) handlerCreateUser(w http.ResponseWriter, r *http.Request) {
+func (apiCfg apiConfig) handlerCreateUser(w http.ResponseWriter, r *http.Request, user database.User) {
 	type parameters struct {
 		Name string `json:"name"`
 	}
@@ -27,7 +26,7 @@ func (apiCfg apiConfig) handlerCreateUser(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	user, err := apiCfg.DB.CreateUser(r.Context(), database.CreateUserParams{
+	newUser, err := apiCfg.DB.CreateUser(r.Context(), database.CreateUserParams{
 		ID: uuid.New(),
 		CreatedAt: time.Now().UTC(),
 		UpdatedAt: time.Now().UTC(),
@@ -38,21 +37,9 @@ func (apiCfg apiConfig) handlerCreateUser(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	respondWithJSON(w, 201, databaseUserToUser(user))
+	respondWithJSON(w, 201, databaseUserToUser(newUser))
 }
 
-func (apiCfg apiConfig) handlerGetUser(w http.ResponseWriter, r *http.Request) {
-	apiKey, err := auth.GetAPIKey(r.Header)
-	if err != nil {
-		respondWithError(w, 403, fmt.Sprintf("Auth error: %v", err))
-		return
-	} 
-	 
-	user, err := apiCfg.DB.GetUserByAPIKey(r.Context(), apiKey)
-	if err != nil {
-		respondWithError(w, 404, fmt.Sprintf("Couldn't get user %v", err))
-		return
-	}
-
+func (apiCfg apiConfig) handlerGetUser(w http.ResponseWriter, r *http.Request, user database.User) {
 	respondWithJSON(w, 200, databaseUserToUser(user))
 }
