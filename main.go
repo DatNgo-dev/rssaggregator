@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/DatNgo-dev/rssaggregator/internal/database"
 	"github.com/go-chi/chi/v5"
@@ -49,6 +50,8 @@ func main() {
 		DB: queries,
 	}
 	
+	go startScraping(queries, 10, time.Minute)
+
 	router := chi.NewRouter()
 
 	// must be define before we make other route like v1Router
