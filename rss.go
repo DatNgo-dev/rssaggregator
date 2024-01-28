@@ -20,7 +20,7 @@ type RSSFeed struct {
 type RSSItem struct {
 	Title			string	`xml:"title"`
 	Link			string	`xml:"link"`
-	PubDate			string	`xml:"pub_date"`
+	PubDate			string	`xml:"pubDate"`
 	Guid			string	`xml:"guid"`
 	Description		string	`xml:"description"`
 }

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"time"
 
 	"github.com/DatNgo-dev/rssaggregator/internal/database"
@@ -78,4 +79,38 @@ func databaseFeedFollowsToFeedFollows(dbFeedFollows []database.FeedFollow) []Fee
 		feedFollows = append(feedFollows, databaseFeedFollowToFeedFollow(dbFeedFollow))
 	}
 	return feedFollows
+}
+
+type Post struct {
+	ID        		uuid.UUID 			`json:"id"`
+	CreatedAt 		time.Time 			`json:"created_at"`
+	UpdatedAt 		time.Time 			`json:"updated_at"`
+	Title			string				`json:"title"`
+	Description 	sql.NullString  	`json:"description"`
+	PublishedAt		time.Time			`json:"published_at"`
+	Url				string				`json:"url"`
+	FeedID			uuid.UUID			`json:"feed_id"`  
+}
+
+func databasePostToPost(dbPost database.Post) Post  {
+	return Post{
+		ID: dbPost.ID,
+		CreatedAt: dbPost.CreatedAt,
+		UpdatedAt: dbPost.UpdatedAt,
+		Title: dbPost.Title,
+		Description: dbPost.Description,
+		PublishedAt: dbPost.PublishedAt,
+		Url: dbPost.Url,
+		FeedID: dbPost.FeedID,
+	}
+}
+
+func databasePostsToPosts(dbPosts []database.Post) []Post {
+	posts := []Post{}
+
+	for _, dbPost := range dbPosts {
+		posts = append(posts, databasePostToPost(dbPost))
+	}
+
+	return posts
 }
