@@ -18,31 +18,31 @@ type User struct {
 
 func databaseUserToUser(dbUser database.User) User {
 	return User{
-		ID: dbUser.ID,
+		ID:        dbUser.ID,
 		CreatedAt: dbUser.CreatedAt,
 		UpdatedAt: dbUser.UpdatedAt,
-		Name: dbUser.Name,
-		ApiKey: dbUser.ApiKey,
+		Name:      dbUser.Name,
+		ApiKey:    dbUser.ApiKey,
 	}
 }
 
 type Feed struct {
-	ID        	uuid.UUID `json:"id"`
-	CreatedAt 	time.Time `json:"created_at"`
-	UpdatedAt 	time.Time `json:"updated_at"`
-	Name      	string    `json:"name"`
-	Url       	string    `json:"url"`
-	UserID      uuid.UUID    `json:"user_id"`
+	ID        uuid.UUID `json:"id"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
+	Name      string    `json:"name"`
+	Url       string    `json:"url"`
+	UserID    uuid.UUID `json:"user_id"`
 }
 
 func databaseFeedToFeed(dbFeed database.Feed) Feed {
 	return Feed{
-		ID: dbFeed.ID,
+		ID:        dbFeed.ID,
 		CreatedAt: dbFeed.CreatedAt,
 		UpdatedAt: dbFeed.UpdatedAt,
-		Name: dbFeed.Name,
-		Url: dbFeed.Url,
-		UserID: dbFeed.UserID,
+		Name:      dbFeed.Name,
+		Url:       dbFeed.Url,
+		UserID:    dbFeed.UserID,
 	}
 }
 
@@ -56,20 +56,20 @@ func databaseFeedsToFeeds(dbFeeds []database.Feed) []Feed {
 }
 
 type FeedFollow struct {
-	ID        	uuid.UUID `json:"id"`
-	CreatedAt 	time.Time `json:"created_at"`
-	UpdatedAt 	time.Time `json:"updated_at"`
-	UserID      uuid.UUID    `json:"user_id"`
-	FeedID      uuid.UUID    `json:"feed_id"`
+	ID        uuid.UUID `json:"id"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
+	UserID    uuid.UUID `json:"user_id"`
+	FeedID    uuid.UUID `json:"feed_id"`
 }
 
 func databaseFeedFollowToFeedFollow(dbFeedFollow database.FeedFollow) FeedFollow {
 	return FeedFollow{
-		ID: dbFeedFollow.ID,
+		ID:        dbFeedFollow.ID,
 		CreatedAt: dbFeedFollow.CreatedAt,
 		UpdatedAt: dbFeedFollow.UpdatedAt,
-		UserID: dbFeedFollow.UserID,
-		FeedID: dbFeedFollow.FeedID,
+		UserID:    dbFeedFollow.UserID,
+		FeedID:    dbFeedFollow.FeedID,
 	}
 }
 
@@ -82,26 +82,26 @@ func databaseFeedFollowsToFeedFollows(dbFeedFollows []database.FeedFollow) []Fee
 }
 
 type Post struct {
-	ID        		uuid.UUID 			`json:"id"`
-	CreatedAt 		time.Time 			`json:"created_at"`
-	UpdatedAt 		time.Time 			`json:"updated_at"`
-	Title			string				`json:"title"`
-	Description 	sql.NullString  	`json:"description"`
-	PublishedAt		time.Time			`json:"published_at"`
-	Url				string				`json:"url"`
-	FeedID			uuid.UUID			`json:"feed_id"`  
+	ID          uuid.UUID      `json:"id"`
+	CreatedAt   time.Time      `json:"created_at"`
+	UpdatedAt   time.Time      `json:"updated_at"`
+	Title       string         `json:"title"`
+	Description sql.NullString `json:"description"`
+	PublishedAt time.Time      `json:"published_at"`
+	Url         string         `json:"url"`
+	FeedID      uuid.UUID      `json:"feed_id"`
 }
 
-func databasePostToPost(dbPost database.Post) Post  {
+func databasePostToPost(dbPost database.Post) Post {
 	return Post{
-		ID: dbPost.ID,
-		CreatedAt: dbPost.CreatedAt,
-		UpdatedAt: dbPost.UpdatedAt,
-		Title: dbPost.Title,
+		ID:          dbPost.ID,
+		CreatedAt:   dbPost.CreatedAt,
+		UpdatedAt:   dbPost.UpdatedAt,
+		Title:       dbPost.Title,
 		Description: dbPost.Description,
 		PublishedAt: dbPost.PublishedAt,
-		Url: dbPost.Url,
-		FeedID: dbPost.FeedID,
+		Url:         dbPost.Url,
+		FeedID:      dbPost.FeedID,
 	}
 }
 
