@@ -25,7 +25,7 @@ func main() {
 
 	if err != nil {
 		log.Fatal(err)
-	} 
+	}
 
 	PORT := os.Getenv("PORT")
 	if PORT == "" {
@@ -49,24 +49,24 @@ func main() {
 	apiCfg := apiConfig{
 		DB: queries,
 	}
-	
+
 	go startScraping(queries, 10, time.Minute)
 
 	router := chi.NewRouter()
 
 	// must be define before we make other route like v1Router
 	router.Use(cors.Handler(cors.Options{
-		AllowedOrigins: []string{"https://*", "http://*"},
-		AllowedMethods: []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-		AllowedHeaders: []string{"*"},
-		ExposedHeaders: []string{"Link"},
+		AllowedOrigins:   []string{"https://*", "http://*"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"*"},
+		ExposedHeaders:   []string{"Link"},
 		AllowCredentials: false,
-		MaxAge: 300,
+		MaxAge:           300,
 	}))
 
 	v1Router := chi.NewRouter()
 
-	// Routes: 
+	// Routes:
 	v1Router.Get("/health", handlerHealth)
 	v1Router.Get("/error", handlerErr)
 
@@ -84,13 +84,13 @@ func main() {
 	v1Router.Delete("/feed-follows/{feedFollowID}", apiCfg.middlewareAuth(apiCfg.handlerDeleteFeedFollow))
 
 	// Posts Routes
-	v1Router.Get("/posts",apiCfg.middlewareAuth(apiCfg.handlerGetPostsForUser))
+	v1Router.Get("/posts", apiCfg.middlewareAuth(apiCfg.handlerGetPostsForUser))
 
 	router.Mount("/v1", v1Router)
 
 	server := &http.Server{
 		Handler: router,
-		Addr: ":" + PORT,
+		Addr:    ":" + PORT,
 	}
 
 	log.Printf("Server starting on port %v", PORT)
